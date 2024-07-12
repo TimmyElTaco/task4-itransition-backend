@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get('/', checkAuth, getUsers);
 
-router.post('/block', checkAuth, blockUsers);
-router.post('/unblock', checkAuth, unblockUsers);
-router.post('/delete', checkAuth, deleteUsers);
+router.put('/block', checkAuth, blockUsers);
+router.put('/unblock', checkAuth, unblockUsers);
+router.delete('/delete', checkAuth, deleteUsers);
 
 export default router;
