@@ -24,21 +24,22 @@ export const checkAuth = async (
     ) {
         try {
             token = req.headers.authorization.split(" ")[1];
-
             const { id } = jwt.verify(token, process.env.PRIVATE_KEY_JWT) as {
                 id: string;
                 iat: number;
                 exp: number;
             };
-
-            req.user = await prisma.user.findFirst({ 
+            const user = await prisma.user.findFirst({ 
                 where: { id },
                 select: {
                     name: true,
                     id: true,
+                    status: true
                 }
-             });
-
+            });
+            if(!user) throw new Error('Invalid token');
+            if(!user.status) throw new Error('User banned');
+            req.user = user;
             return next();
         } catch (error) {
             console.log(error);

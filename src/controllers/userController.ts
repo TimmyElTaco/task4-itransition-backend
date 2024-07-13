@@ -39,6 +39,7 @@ class UserController {
 
     async deleteUsers (req: express.Request<{}, {}, string[]>, res: Response) {
         const usersID = req.body;
+        
         try {
             await this.prisma.user.deleteMany({ 
                 where: { id: { in: usersID } }
